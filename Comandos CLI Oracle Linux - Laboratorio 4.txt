@@ -33,14 +33,19 @@ sudo postmap /etc/postfix/sasl_passwd
 sudo chmod 600 /etc/postfix/sasl_passwd /etc/postfix/sasl_passwd.lmdb
 sudo systemctl restart postfix
 nano /etc/postfix/main.cf
+myhostname = evildead.com
+mydomain = evildead.com
+myorigin = $mydomain
+inet_interfaces = all
+inet_protocols = all
 mydestination = 
 relayhost = [smtp.gmail.com]:587
 smtp_use_tls = yes
-smtp_tls_CAfile = /etc/ssl/certs/ca-bundle.crt
 smtp_sasl_auth_enable = yes
 smtp_sasl_password_maps = lmdb:/etc/postfix/sasl_passwd
 smtp_sasl_security_options = noanonymous
 smtp_sasl_tls_security_options = noanonymous
+smtp_tls_CAfile = /etc/ssl/certs/ca-bundle.crt
 firewall-cmd --add-port=587/tcp --permanent
 firewall-cmd --reload
 systemctl reload postfix
@@ -61,3 +66,4 @@ firewall-cmd --reload
 usermod -aG sys efeliz
 systemctl start cups
 http://10.0.0.167:631
+
